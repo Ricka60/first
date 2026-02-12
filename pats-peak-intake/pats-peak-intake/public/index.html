@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pats Peak Rental Intake</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Pats Peak Rental Intake</h1>
+    <p class="subtitle">Step 1: Find your profile. Step 2: Confirm details.</p>
+
+    <!-- Stepper -->
+    <ol class="stepper" aria-label="Progress">
+      <li class="step active" id="stepIndicator1">
+        <span class="num">1</span> Find Guest
+      </li>
+      <li class="step" id="stepIndicator2">
+        <span class="num">2</span> Details & Submit
+      </li>
+    </ol>
+
+    <!-- STEP 1: LOOKUP -->
+    <section id="step1" class="step-panel">
+      <form id="lookupForm" novalidate>
+        <div class="grid two">
+          <div class="field">
+            <label for="firstName">First name <span aria-hidden="true">*</span></label>
+            <input id="firstName" name="firstName" type="text" autocomplete="given-name" required maxlength="60" />
+            <small class="error" data-error-for="firstName"></small>
+          </div>
+
+          <div class="field">
+            <label for="lastName">Last name <span aria-hidden="true">*</span></label>
+            <input id="lastName" name="lastName" type="text" autocomplete="family-name" required maxlength="60" />
+            <small class="error" data-error-for="lastName"></small>
+          </div>
+        </div>
+
+        <div class="grid three">
+          <div class="field">
+            <label for="dob">Date of Birth <span aria-hidden="true">*</span></label>
+            <input id="dob" name="dob" type="date" required />
+            <small class="error" data-error-for="dob"></small>
+          </div>
+
+          <div class="field">
+            <label for="zip">Zip code <span aria-hidden="true">*</span></label>
+            <input id="zip" name="zip" type="text" inputmode="numeric" maxlength="10" placeholder="e.g., 03242" required />
+            <small class="error" data-error-for="zip"></small>
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone number <span aria-hidden="true">*</span></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="(603) 555-1234" required maxlength="25" />
+            <small class="error" data-error-for="phone"></small>
+          </div>
+        </div>
+
+        <!-- Honeypot -->
+        <div class="hp" aria-hidden="true">
+          <label for="company">Company (leave blank)</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="lookupBtn">Find Guest</button>
+          <div id="lookupStatus" class="status" role="status" aria-live="polite"></div>
+        </div>
+      </form>
+
+      <!-- Lookup results -->
+      <div id="lookupResults" class="results" hidden>
+        <h3>Matches</h3>
+        <ul id="resultsList" class="results-list"></ul>
+        <div class="results-actions">
+          <button id="proceedNewBtn" class="link-btn" type="button">None of these are me → Continue as new</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: DETAILS -->
+    <section id="step2" class="step-panel" hidden>
+      <form id="intakeForm" novalidate>
+        <!-- Hidden meta -->
+        <input type="hidden" id="guestId" name="guestId" />
+        <input type="hidden" id="s1_firstName" name="firstName" />
+        <input type="hidden" id="s1_lastName" name="lastName" />
+        <input type="hidden" id="s1_dob" name="dob" />
+        <input type="hidden" id="s1_zip" name="zip" />
+        <input type="hidden" id="s1_phone" name="phone" />
+
+        <div class="summary">
+          <h3>Review your info</h3>
+          <p id="summaryLine"></p>
+          <button type="button" id="backToStep1" class="link-btn">← Back to Step 1</button>
+        </div>
+
+        <div class="grid three">
+          <div class="field">
+            <label for="skierType">Skier Type <span aria-hidden="true">*</span></label>
+            <select id="skierType" name="skierType" required>
+              <option value="">Select</option>
+              <option value="I">Type I (cautious)</option>
+              <option value="II">Type II (moderate)</option>
+              <option value="III">Type III (aggressive)</option>
+            </select>
+            <small class="error" data-error-for="skierType"></small>
+          </div>
+
+          <div class="field">
+            <label for="weightLbs">Weight (lbs) <span aria-hidden="true">*</span></label>
+            <input id="weightLbs" name="weightLbs" type="number" inputmode="decimal" min="30" max="400" step="1" required />
+            <small class="error" data-error-for="weightLbs"></small>
+          </div>
+
+          <div class="field">
+            <label for="heightIn">Height (inches) <span aria-hidden="true">*</span></label>
+            <input id="heightIn" name="heightIn" type="number" inputmode="decimal" min="36" max="84" step="1" required />
+            <small class="hint">5'8" = 68 inches</small>
+            <small class="error" data-error-for="heightIn"></small>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="field">
+            <label for="shoeSize">Shoe size (US) <span aria-hidden="true">*</span></label>
+            <input id="shoeSize" name="shoeSize" type="number" inputmode="decimal" min="1" max="18" step="0.5" required />
+            <small class="error" data-error-for="shoeSize"></small>
+          </div>
+
+          <div class="field">
+            <label for="email">Email address <span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" required maxlength="200" />
+            <small class="error" data-error-for="email"></small>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox">
+            <input type="checkbox" id="consent" name="consent" required />
+            I consent to the processing of my information for equipment sizing and reservation.
+          </label>
+          <small class="error" data-error-for="consent"></small>
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="submitBtn">Submit</button>
+          <div id="formStatus" class="status" role="status" aria-live="polite"></div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
